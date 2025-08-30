@@ -9,7 +9,7 @@ export default function PrincipalSection() {
   // You can later fetch these from CMS
   const principal = {
     name: "প্রধান শিক্ষক",
-    photo: "/principal.jpg",
+    photo: "/principal.png",
     message:
       "শিক্ষার্থীদের নৈতিক, সামাজিক ও একাডেমিক উৎকর্ষতা অর্জনে আমাদের অঙ্গীকার অটুট। শিক্ষা শুধু তথ্য নয়—চরিত্র গঠনের মাধ্যম।",
   }

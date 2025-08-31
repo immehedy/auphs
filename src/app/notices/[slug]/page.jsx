@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { Calendar } from "lucide-react";
+import { use } from "react";
 
 const notices = [
   {
@@ -29,7 +30,9 @@ const notices = [
 ];
 
 export default function NoticePage({ params }) {
-  const notice = notices.find((n) => n.slug === params.slug);
+  const { slug } = use(params); // ✅ unwrap the promise
+
+  const notice = notices.find((n) => n.slug === slug);
 
   if (!notice) {
     return notFound();

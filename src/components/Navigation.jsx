@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Home, Info, BookOpen, UserPlus, Phone } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -21,21 +22,22 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
-          <div className="flex-shrink-0 flex items-center space-x-3">
-            {/* Keep intrinsic ratio; control size with Tailwind */}
-            <Image
-              src="/auhs-logo.png"
-              alt="আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয় লোগো"
-              width={512}
-              height={512}
-              className="h-10 w-auto sm:h-12"
-              priority
-            />
-            <div className="hidden sm:block">
-              <h1 className="text-base font-bold text-gray-900">
-                আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয়
-              </h1>
-            </div>
+          <div className="flex-shrink-0">
+            <Link href="/" className="flex items-center space-x-3">
+              <Image
+                src="/auhs-logo.png"
+                alt="আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয় লোগো"
+                width={512}
+                height={512}
+                className="h-10 w-auto sm:h-12"
+                priority
+              />
+              <div className="hidden sm:block">
+                <h1 className="text-base font-bold text-gray-900">
+                  আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয়
+                </h1>
+              </div>
+            </Link>
           </div>
 
           {/* Desktop nav */}

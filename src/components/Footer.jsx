@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram } from "lucide-react"
+import Link from "next/link"
 
 export function Footer() {
   return (
@@ -9,7 +10,7 @@ export function Footer() {
           {/* Brand + socials */}
           <div className="md:col-span-2 text-center md:text-left">
             <h3 className="text-2xl sm:text-3xl font-bold text-primary mb-4">
-              আজিমনগর ইউনিয়ন হাই স্কুল
+            আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয়
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
               মানসম্পন্ন শিক্ষার মাধ্যমে আগামী প্রজন্মের উজ্জ্বল ভবিষ্যৎ গড়তে আমরা প্রতিশ্রুতিবদ্ধ।
@@ -64,7 +65,7 @@ export function Footer() {
               </div>
               <div className="flex items-center justify-center sm:justify-start">
                 <Phone className="h-5 w-5 text-primary mr-3 flex-shrink-0" />
-                <span className="text-gray-300 text-sm">+৮৮০-১৭১২-৩৪৫৬৭৮</span>
+                <span className="text-gray-300 text-sm">+880 1710-125514</span>
               </div>
               <div className="flex items-center justify-center sm:justify-start">
                 <Mail className="h-5 w-5 text-primary mr-3 flex-shrink-0" />
@@ -80,10 +81,10 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-800">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
             <p className="text-gray-400">
-              © ২০২৫ আজিমনগর ইউনিয়ন হাই স্কুল। সকল অধিকার সংরক্ষিত।
+              © ২০২৫ আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয়। সকল অধিকার সংরক্ষিত।
             </p>
             <p className="text-gray-500 text-sm">
-              তৈরি করেছেন <span className="text-primary font-medium">Azimnagar IT</span>
+              তৈরি করেছেন <span className="text-primary font-medium"><Link href="https://fourbit.io">fourbit.io</Link></span>
             </p>
           </div>
         </div>

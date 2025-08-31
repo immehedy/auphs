@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Home, Info, BookOpen, UserPlus, Phone } from "lucide-react"
+import Image from "next/image"
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -19,15 +20,25 @@ export function Navigation() {
     <nav className="bg-white border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          {/* Brand */}
           <div className="flex-shrink-0 flex items-center space-x-3">
-            <div className="w-14 h-14 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xs">আ.ইউ.হা</span>
-            </div>
+            {/* Keep intrinsic ratio; control size with Tailwind */}
+            <Image
+              src="/auhs-logo.png"
+              alt="আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয় লোগো"
+              width={512}
+              height={512}
+              className="h-10 w-auto sm:h-12"
+              priority
+            />
             <div className="hidden sm:block">
-              <h1 className="text-base font-bold text-gray-900">আজিমনগর ইউনিয়ন হাই স্কুল</h1>
+              <h1 className="text-base font-bold text-gray-900">
+                আজিমনগর ইউনিয়ন উচ্চ বিদ্যালয়
+              </h1>
             </div>
           </div>
 
+          {/* Desktop nav */}
           <div className="hidden md:block">
             <div className="flex items-center space-x-1">
               {navItems.map((item) => {
@@ -46,13 +57,24 @@ export function Navigation() {
             </div>
           </div>
 
+          {/* Mobile toggle */}
           <div className="md:hidden">
-            <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-              {isMobileMenuOpen ? <X className="h-5 w-5 text-primary" /> : <Menu className="h-5 w-5 text-primary" />}
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-label="Toggle menu"
+              onClick={() => setIsMobileMenuOpen((v) => !v)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5 text-primary" />
+              ) : (
+                <Menu className="h-5 w-5 text-primary" />
+              )}
             </Button>
           </div>
         </div>
 
+        {/* Mobile menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-gray-50 rounded-lg mt-2">

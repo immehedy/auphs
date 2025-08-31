@@ -37,7 +37,14 @@ export function ContentGrid() {
       color: "from-primary to-green-600",
       bgColor: "bg-green-50",
       textColor: "text-green-700",
-      items: ["একাডেমিক ফি", "বই তালিকা", "সিলেবাস", "ছুটির দিন", "নোটিশ", "একাডেমিক ক্যালেন্ডার", "ডেমো সেকশন", "ডেমো সেকশন"],
+      items: [
+        "একাডেমিক ফি",
+        "বই তালিকা",
+        "সিলেবাস",
+        "ছুটির দিন",
+        "নোটিশ",
+        "একাডেমিক ক্যালেন্ডার",
+      ],
     },
     {
       title: "শিক্ষার্থী কর্নার",
@@ -51,9 +58,6 @@ export function ContentGrid() {
         "পোশাক তথ্য",
         "ক্লাস রুটিন",
         "পরীক্ষার রুটিন",
-        "ডেমো সেকশন",
-        "ডেমো সেকশন",
-        "ডেমো সেকশন",
       ],
     },
     {
@@ -69,8 +73,6 @@ export function ContentGrid() {
         "খেলার মাঠ",
         "পরিবহন",
         "ইনডোর গেমস",
-        "ডেমো ফ্যাসিলিটি",
-        "ডেমো ফ্যাসিলিটি",
       ],
     },
     {
@@ -79,7 +81,11 @@ export function ContentGrid() {
       color: "from-red-500 to-red-600",
       bgColor: "bg-red-50",
       textColor: "text-red-700",
-      items: ["পাবলিক রেজাল্ট", "স্কুল রেজাল্ট", "বোর্ড রেজাল্ট লিংক", "পরীক্ষার রুটিন", "স্কুল রেজাল্ট"],
+      items: [
+        "স্কুল রেজাল্ট",
+        "বোর্ড রেজাল্ট লিংক",
+        "পরীক্ষার রুটিন",
+      ],
     },
     {
       title: "ভর্তি",
@@ -87,7 +93,12 @@ export function ContentGrid() {
       color: "from-teal-500 to-teal-600",
       bgColor: "bg-teal-50",
       textColor: "text-teal-700",
-      items: ["ভর্তি তথ্য", "অনলাইনে আবেদন", "প্রসপেক্টাস", "ভর্তি ফরম"],
+      items: [
+        "ভর্তি তথ্য",
+        "অনলাইনে আবেদন",
+        "ভর্তি বিজ্ঞপ্তি",
+        "ভর্তি ফরম",
+      ],
     },
     {
       title: "গ্যালারি",
@@ -107,16 +118,13 @@ export function ContentGrid() {
         "খেলাধুলা",
         "ট্যুর",
         "স্কাউট",
-        "বিএনসিসি",
         "কম্পিউটার ক্লাব",
-        "ফটোগ্রাফি ক্লাব",
         "সাংস্কৃতিক ক্লাব",
         "বিতর্ক ক্লাব",
-        "বিজ্ঞান ক্লাব",
-        "ভাষা ক্লাব",
       ],
     },
   ]
+  
 
   return (
     <div className="py-16 bg-gradient-to-b from-white to-gray-50">
@@ -150,7 +158,7 @@ export function ContentGrid() {
                   <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-6">
+              <CardContent className="px-6 py-2">
                 <ul className="space-y-3">
                   {section.items.map((item, itemIndex) => (
                     <li

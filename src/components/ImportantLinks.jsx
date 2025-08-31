@@ -52,14 +52,7 @@ export function ImportantLinks() {
       icon: GraduationCap,
       color: "text-teal-600",
       bgColor: "bg-teal-50",
-    },
-    {
-      title: "Dcampus",
-      description: "ডিজিটাল ক্যাম্পাস ম্যানেজমেন্ট",
-      icon: Globe,
-      color: "text-indigo-600",
-      bgColor: "bg-indigo-50",
-    },
+    }
   ];
 
   return (

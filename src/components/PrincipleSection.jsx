@@ -15,8 +15,8 @@ export default function PrincipalSection() {
   }
 
   return (
-    <div className="space-y-6 border">
-      <Card className="shadow-xl border overflow-hidden max-w-md mx-auto">
+    <div className="space-y-6">
+      <Card className="shadow-xl overflow-hidden max-w-md mx-auto">
         {/* Header (same structure & feel as ImportantLinks) */}
         <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white relative">
           <div className="absolute inset-0 bg-black/10" />

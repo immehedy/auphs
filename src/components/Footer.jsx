@@ -65,12 +65,12 @@ export function Footer() {
               </div>
               <div className="flex items-center justify-center sm:justify-start">
                 <Phone className="h-5 w-5 text-primary mr-3 flex-shrink-0" />
-                <span className="text-gray-300 text-sm">+880 1710-125514</span>
+                <span className="text-gray-300 text-sm">+880 1309-133850, +880 1710-125514</span>
               </div>
               <div className="flex items-center justify-center sm:justify-start">
                 <Mail className="h-5 w-5 text-primary mr-3 flex-shrink-0" />
                 <span className="text-gray-300 text-sm break-words">
-                  info@azimnagorunionhs.edu.bd
+                s133850@gmail.com
                 </span>
               </div>
             </div>

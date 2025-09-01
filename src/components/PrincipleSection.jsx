@@ -8,8 +8,8 @@ import { GraduationCap } from "lucide-react"
 export default function PrincipalSection() {
   // You can later fetch these from CMS
   const principal = {
-    name: "প্রধান শিক্ষক",
-    photo: "/principal.png",
+    name: "চৌধুরী আওলাদ হোসেন বিপ্লব",
+    photo: "/principal.jpeg",
     message:
       "শিক্ষার্থীদের নৈতিক, সামাজিক ও একাডেমিক উৎকর্ষতা অর্জনে আমাদের অঙ্গীকার অটুট। শিক্ষা শুধু তথ্য নয়—চরিত্র গঠনের মাধ্যম।",
   }
@@ -29,7 +29,7 @@ export default function PrincipalSection() {
         {/* Content */}
         <CardContent className="p-6">
           <div className="text-center">
-            <div className="relative w-40 h-52 md:w-48 md:h-64 mx-auto mb-5 rounded-lg overflow-hidden shadow-md">
+            <div className="relative w-40 h-52 md:w-64 md:h-64 mx-auto mb-5 rounded-lg overflow-hidden shadow-md">
               <Image
                 src={principal.photo || "/placeholder.svg"}
                 alt="প্রধান শিক্ষক"

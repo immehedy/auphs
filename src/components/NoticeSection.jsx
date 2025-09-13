@@ -11,19 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { convertToBengali, formatBengaliDate } from "@/lib/utils";
+import { convertToBengali, formatBengaliDate, getNestedValue } from "@/lib/utils";
 
 export function NoticeSection({ scrollingNotice, slideImages, notices }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  // Helper function to safely extract nested values
-  const getNestedValue = (obj, path, defaultValue = '') => {
-    try {
-      return path.split('.').reduce((current, key) => current?.[key], obj) || defaultValue;
-    } catch {
-      return defaultValue;
-    }
-  };
 
   // Fallback slides in case slideImages is empty or undefined
   const fallbackSlides = [

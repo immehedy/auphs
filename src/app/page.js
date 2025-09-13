@@ -25,8 +25,8 @@ export default async function Home() {
             {/* <ContentGrid items={items} /> */}
           </div>
           <div className="lg:col-span-1 space-y-6">
-            {/* <PrincipalSection principalName={content?.principalName} principalPhoto={content?.principalPhoto} principleMessage={content?.principleMessage}   />
-            <ImportantLinks showImportantLinks={content?.showImportantLinks} /> */}
+            <PrincipalSection principalName={content?.principalName} principalPhoto={content?.principalPhoto} principleMessage={content?.principleMessage}   />
+            <ImportantLinks showImportantLinks={content?.showImportantLinks} />
             <HotlineSection />
           </div>
         </div>

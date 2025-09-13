@@ -1,4 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+"use client"
+
+import React from "react"
 import {
   Users,
   GraduationCap,
@@ -12,7 +14,9 @@ import {
   ChevronRight,
 } from "lucide-react"
 
-export function ContentGrid({items}) {
+export function ContentGrid({ items }) {
+
+  // Static sections configuration
   const sections = [
     {
       title: "আমাদের সম্পর্কে",
@@ -34,7 +38,7 @@ export function ContentGrid({items}) {
     {
       title: "একাডেমিক তথ্য",
       icon: GraduationCap,
-      color: "from-primary to-green-600",
+      color: "from-green-500 to-green-600",
       bgColor: "bg-green-50",
       textColor: "text-green-700",
       items: [
@@ -124,7 +128,63 @@ export function ContentGrid({items}) {
       ],
     },
   ]
-  
+
+  // Function to handle item click
+  const handleItemClick = (itemTitle, contentfulData) => {
+    console.log("Clicked item:", itemTitle)
+    console.log("Contentful data:", contentfulData)
+    
+    // Navigate to the slug if it exists
+    if (contentfulData?.fields?.slug) {
+      // Using window.location for navigation (works in all environments)
+      window.location.href = `/${contentfulData.fields.slug}`
+      
+      // Alternative: If you're using Next.js router, uncomment below and import useRouter
+      // import { useRouter } from 'next/navigation'
+      // const router = useRouter()
+      // router.push(`/${contentfulData.fields.slug}`)
+    } else {
+      console.warn("No slug found for item:", itemTitle)
+    }
+  }
+
+  // Create sections with their matching contentful items
+  const sectionsWithData = sections.map(section => {
+    const matchingItems = section.items
+      .map(itemTitle => {
+        const contentfulItem = items?.find(item => 
+          item.fields?.title === itemTitle
+        )
+        return contentfulItem ? {
+          title: itemTitle,
+          contentfulData: contentfulItem
+        } : null
+      })
+      .filter(Boolean) // Remove null items
+    
+    return {
+      ...section,
+      matchingItems
+    }
+  }).filter(section => section.matchingItems.length > 0) // Only show sections that have data
+
+  // Handle unmatched contentful items
+  const unmatchedItems = items?.filter(contentfulItem => {
+    const title = contentfulItem.fields?.title
+    return title && !sections.some(section => 
+      section.items.includes(title)
+    )
+  }) || []
+
+  if (sectionsWithData.length === 0 && unmatchedItems.length === 0) {
+    return (
+      <div className="py-16 bg-gradient-to-b from-white to-gray-50 mt-8">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-gray-600">কোনো তথ্য পাওয়া যায়নি।</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="py-16 bg-gradient-to-b from-white to-gray-50 mt-8">
@@ -137,44 +197,82 @@ export function ContentGrid({items}) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          {sections.map((section, index) => (
-            <Card
-              key={index}
-              className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-white overflow-hidden"
-            >
-              <CardHeader className={`${section.bgColor} border-b-0 relative overflow-hidden py-2`}>
-                <div
-                  className={`absolute inset-0 bg-gradient-to-r ${section.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}
-                ></div>
-                <CardTitle className={`flex items-center justify-between ${section.textColor} relative z-10`}>
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`p-2 rounded-lg bg-gradient-to-r ${section.color} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                    >
-                      <section.icon className="h-6 w-6" />
+          {sectionsWithData.map((section, index) => {
+            const IconComponent = section.icon
+
+            return (
+              <div
+                key={index}
+                className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-white overflow-hidden rounded-lg"
+              >
+                <div className={`${section.bgColor} border-b-0 relative overflow-hidden py-2 px-6`}>
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-r ${section.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}
+                  ></div>
+                  <div className={`flex items-center justify-between ${section.textColor} relative z-10`}>
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`p-2 rounded-lg bg-gradient-to-r ${section.color} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                      >
+                        <IconComponent className="h-6 w-6" />
+                      </div>
+                      <span className="font-bold text-lg">{section.title}</span>
                     </div>
-                    <span className="font-bold text-lg">{section.title}</span>
+                    <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
+                <div className="px-6 py-2">
+                  <ul className="space-y-3">
+                    {section.matchingItems.map((item, itemIndex) => (
+                      <li
+                        key={itemIndex}
+                        className="group/item flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer transition-all duration-200 p-2 rounded-lg hover:bg-gray-50"
+                        onClick={() => handleItemClick(item.title, item.contentfulData)}
+                      >
+                        <div
+                          className={`w-2 h-2 bg-gradient-to-r ${section.color} rounded-full flex-shrink-0 group-hover/item:scale-125 transition-transform duration-200`}
+                        ></div>
+                        <span className="text-sm font-medium flex-1">{item.title}</span>
+                        <ArrowRight className="h-3 w-3 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all duration-200" />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )
+          })}
+
+          {/* Show unmatched items as separate cards */}
+          {unmatchedItems.map((contentfulItem, index) => (
+            <div
+              key={`unmatched-${index}`}
+              className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-white overflow-hidden rounded-lg"
+            >
+              <div className="bg-gray-50 border-b-0 relative overflow-hidden py-2 px-6">
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-500 to-gray-600 opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
+                <div className="flex items-center justify-between text-gray-700 relative z-10">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-gradient-to-r from-gray-500 to-gray-600 text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <BookOpen className="h-6 w-6" />
+                    </div>
+                    <span className="font-bold text-lg">অন্যান্য</span>
                   </div>
                   <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="px-6 py-2">
+                </div>
+              </div>
+              <div className="px-6 py-2">
                 <ul className="space-y-3">
-                  {section.items.map((item, itemIndex) => (
-                    <li
-                      key={itemIndex}
-                      className="group/item flex items-center gap-3 text-gray-700 hover:text-primary cursor-pointer transition-all duration-200 p-2 rounded-lg hover:bg-gray-50"
-                    >
-                      <div
-                        className={`w-2 h-2 bg-gradient-to-r ${section.color} rounded-full flex-shrink-0 group-hover/item:scale-125 transition-transform duration-200`}
-                      ></div>
-                      <span className="text-sm font-medium flex-1">{item}</span>
-                      <ArrowRight className="h-3 w-3 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all duration-200" />
-                    </li>
-                  ))}
+                  <li
+                    className="group/item flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer transition-all duration-200 p-2 rounded-lg hover:bg-gray-50"
+                    onClick={() => handleItemClick(contentfulItem.fields?.title, contentfulItem)}
+                  >
+                    <div className="w-2 h-2 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex-shrink-0 group-hover/item:scale-125 transition-transform duration-200"></div>
+                    <span className="text-sm font-medium flex-1">{contentfulItem.fields?.title}</span>
+                    <ArrowRight className="h-3 w-3 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all duration-200" />
+                  </li>
                 </ul>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>

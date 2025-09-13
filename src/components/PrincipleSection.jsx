@@ -2,12 +2,9 @@
 
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { GraduationCap } from "lucide-react"
 
 export default function PrincipalSection({ principalName, principalPhoto, principleMessage }) {
-  console.log({principalName, principalPhoto, principleMessage})
-  
   // Helper function to extract text content from Contentful rich text
   const extractTextContent = (richTextObj) => {
     if (!richTextObj || !richTextObj.content) return '';

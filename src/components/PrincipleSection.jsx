@@ -2,16 +2,42 @@
 
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { GraduationCap } from "lucide-react"
 
-export default function PrincipalSection() {
-  // You can later fetch these from CMS
-  const principal = {
-    name: "প্রধান শিক্ষক",
-    photo: "/principal.png",
-    message:
-      "শিক্ষার্থীদের নৈতিক, সামাজিক ও একাডেমিক উৎকর্ষতা অর্জনে আমাদের অঙ্গীকার অটুট। শিক্ষা শুধু তথ্য নয়—চরিত্র গঠনের মাধ্যম।",
+export default function PrincipalSection({ principalName, principalPhoto, principleMessage }) {
+  // Helper function to extract text content from Contentful rich text
+  const extractTextContent = (richTextObj) => {
+    if (!richTextObj || !richTextObj.content) return '';
+    
+    try {
+      // Navigate through the nested structure to get the text value
+      const textContent = richTextObj.content
+        .map(node => {
+          if (node.content && Array.isArray(node.content)) {
+            return node.content
+              .map(textNode => textNode.value || '')
+              .join(' ');
+          }
+          return '';
+        })
+        .join(' ')
+        .trim();
+      
+      return textContent;
+    } catch (error) {
+      console.error('Error extracting text content:', error);
+      return '';
+    }
+  };
+
+  // Extract data from Contentful structure or use fallbacks
+  const principalData = {
+    name: extractTextContent(principalName) || "প্রধান শিক্ষক",
+    photo: principalPhoto?.fields?.file?.url 
+      ? `https:${principalPhoto.fields.file.url}` 
+      : "/principal.png",
+    message: extractTextContent(principleMessage) || 
+      "শিক্ষার্থীদের নৈতিক, সামাজিক ও একাডেমিক উৎকর্ষতা অর্জনে আমাদের অঙ্গীকার অটুট। শিক্ষা শুধু তথ্য নয়—চরিত্র গঠনের মাধ্যম।",
   }
 
   return (
@@ -29,31 +55,34 @@ export default function PrincipalSection() {
         {/* Content */}
         <CardContent className="p-6">
           <div className="text-center">
-            <div className="relative w-40 h-52 md:w-48 md:h-64 mx-auto mb-5 rounded-lg overflow-hidden shadow-md">
+            <div className="relative w-40 h-52 md:w-64 md:h-64 mx-auto mb-5 rounded-lg overflow-hidden shadow-md">
               <Image
-                src={principal.photo || "/placeholder.svg"}
+                src={principalData.photo}
                 alt="প্রধান শিক্ষক"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 200px, 240px"
                 priority
+                onError={(e) => {
+                  e.target.src = "/placeholder.svg";
+                }}
               />
             </div>
 
-            <h3 className="text-lg font-semibold text-gray-900">{principal.name}</h3>
+            <h3 className="text-lg font-semibold text-gray-900">{principalData.name}</h3>
 
             {/* small divider for elegance */}
             <div className="mx-auto my-3 h-[2px] w-12 bg-primary/30 rounded-full" />
 
             <p className="text-sm text-gray-600 leading-relaxed">
-              {principal.message}
+              {principalData.message}
             </p>
 
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <Button variant="link" className="text-primary p-0 h-auto font-medium">
                 আরও দেখুন
               </Button>
-            </div>
+            </div> */}
           </div>
         </CardContent>
       </Card>

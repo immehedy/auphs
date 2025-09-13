@@ -9,7 +9,7 @@ import {
   Database,
 } from "lucide-react";
 
-export function ImportantLinks() {
+export function ImportantLinks({ showImportantLinks }) {
   const links = [
     {
       title: "শিক্ষা বোর্ড ফলাফল",
@@ -17,6 +17,7 @@ export function ImportantLinks() {
       icon: FileText,
       color: "text-blue-600",
       bgColor: "bg-blue-50",
+      url: "http://www.educationboardresults.gov.bd/"
     },
     {
       title: "মাধ্যমিক ও উচ্চমাধ্যমিক বোর্ড",
@@ -24,6 +25,7 @@ export function ImportantLinks() {
       icon: GraduationCap,
       color: "text-green-600",
       bgColor: "bg-green-50",
+      url: "https://dhakaeducationboard.gov.bd/"
     },
     {
       title: "মাধ্যমিক ও উচ্চমাধ্যমিক অধিদপ্তর",
@@ -31,6 +33,7 @@ export function ImportantLinks() {
       icon: Building2,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
+      url: "http://www.dshe.gov.bd/"
     },
     {
       title: "বাংলাদেশ শিক্ষাতথ্য ও পরিসংখ্যান ব্যুরো (ব্যানবেইস)",
@@ -38,6 +41,7 @@ export function ImportantLinks() {
       icon: Database,
       color: "text-orange-600",
       bgColor: "bg-orange-50",
+      url: "http://www.banbeis.gov.bd/"
     },
     {
       title: "শিক্ষা মন্ত্রণালয়",
@@ -45,6 +49,7 @@ export function ImportantLinks() {
       icon: Building2,
       color: "text-red-600",
       bgColor: "bg-red-50",
+      url: "https://moedu.gov.bd/"
     },
     {
       title: "প্রাথমিক ও গণশিক্ষা মন্ত্রণালয়",
@@ -52,13 +57,19 @@ export function ImportantLinks() {
       icon: GraduationCap,
       color: "text-teal-600",
       bgColor: "bg-teal-50",
+      url: "https://mopme.gov.bd/"
     }
   ];
+
+  // Don't render the component if showImportantLinks is false
+  if (!showImportantLinks) {
+    return null;
+  }
 
   return (
     <div className="space-y-6">
       <Card className="shadow-xl border-0 overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-primary to-primary-80 text-white relative">
+        <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-white relative">
           <div className="absolute inset-0 bg-black/10"></div>
           <CardTitle className="text-xl font-bold flex items-center space-x-3 relative z-10 py-2">
             <Link2 className="h-6 w-6" />
@@ -68,9 +79,12 @@ export function ImportantLinks() {
         <CardContent className="p-0">
           <div className="divide-y divide-gray-100">
             {links.map((link, index) => (
-              <div
+              <a
                 key={index}
-                className="group p-4 hover:bg-gray-50 cursor-pointer transition-all duration-200 hover:shadow-sm">
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block p-4 hover:bg-gray-50 cursor-pointer transition-all duration-200 hover:shadow-sm">
                 <div className="flex items-start space-x-4">
                   <div
                     className={`p-2 rounded-lg ${link.bgColor} group-hover:scale-110 transition-transform duration-200`}>
@@ -86,7 +100,7 @@ export function ImportantLinks() {
                   </div>
                   <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-primary group-hover:scale-110 transition-all duration-200 flex-shrink-0 mt-1" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </CardContent>

@@ -11,51 +11,84 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { convertToBengali, formatBengaliDate, getNestedValue } from "@/lib/utils";
 
-export function NoticeSection() {
+export function NoticeSection({ scrollingNotice, slideImages, notices }) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
+  // Fallback slides in case slideImages is empty or undefined
+  const fallbackSlides = [
     {
-      image: "/azimnagar.jpg",
-      title: "বিদ্যালয়ের প্রবেশদ্বার",
+      fields: {
+        file: { url: "/azimnagar.jpg" },
+        title: "বিদ্যালয়ের প্রবেশদ্বার",
+      }
     },
     {
-      image: "/classroom.jpg",
-      title: "সকালের সমাবেশ",
+      fields: {
+        file: { url: "/classroom.jpg" },
+        title: "সকালের সমাবেশ",
+      }
     },
     {
-      image: "/outdoor-class.jpg",
-      title: "শ্রেণিকক্ষে পাঠদান",
-    },
-  ];
-
-  const notices = [
-    {
-      date: "৭ নভেম্বর, ২০২৪",
-      slug: "new-website",
-      title: "নতুন ওয়েবসাইট প্রকাশ",
-      description:
-        "আমাদের বিদ্যালয়ের নতুন ওয়েবসাইট চালু হয়েছে। সকল তথ্য এখানে পাবেন।",
-      isNew: true,
-    },
-    {
-      date: "৫ নভেম্বর, ২০২৪",
-      slug: "new-website",
-      title: "বার্ষিক ক্রীড়া প্রতিযোগিতা",
-      description: "আগামী ১৫ নভেম্বর বার্ষিক ক্রীড়া প্রতিযোগিতা অনুষ্ঠিত হবে।",
-      isNew: false,
-    },
-    {
-      date: "৩ নভেম্বর, ২০২৪",
-      slug: "new-website",
-      title: "অভিভাবক সভা",
-      description: "আগামী ১০ নভেম্বর সকাল ১০টায় অভিভাবক সভা অনুষ্ঠিত হবে।",
-      isNew: false,
+      fields: {
+        file: { url: "/outdoor-class.jpg" },
+        title: "শ্রেণিকক্ষে পাঠদান",
+      }
     },
   ];
 
-  const scrollingNotice =
+  // Use slideImages if available and not empty, otherwise use fallback
+  const slides = (slideImages && slideImages.length > 0) ? slideImages : fallbackSlides;
+
+  // Fallback notices in case notices is empty or undefined
+  const fallbackNotices = [
+    {
+      fields: {
+        date: "November 7, 2024",
+        slug: "new-website",
+        title: {
+          content: [{ content: [{ value: "নতুন ওয়েবসাইট প্রকাশ" }] }]
+        },
+        description: {
+          content: [{ content: [{ value: "আমাদের বিদ্যালয়ের নতুন ওয়েবসাইট চালু হয়েছে। সকল তথ্য এখানে পাবেন।" }] }]
+        },
+        isNew: true,
+      }
+    },
+    {
+      fields: {
+        date: "2024-11-05",
+        slug: "annual-sports",
+        title: {
+          content: [{ content: [{ value: "বার্ষিক ক্রীড়া প্রতিযোগিতা" }] }]
+        },
+        description: {
+          content: [{ content: [{ value: "আগামী ১৫ নভেম্বর বার্ষিক ক্রীড়া প্রতিযোগিতা অনুষ্ঠিত হবে।" }] }]
+        },
+        isNew: false,
+      }
+    },
+    {
+      fields: {
+        date: "November 3, 2024",
+        slug: "parent-meeting",
+        title: {
+          content: [{ content: [{ value: "অভিভাবক সভা" }] }]
+        },
+        description: {
+          content: [{ content: [{ value: "আগামী ১০ নভেম্বর সকাল ১০টায় অভিভাবক সভা অনুষ্ঠিত হবে।" }] }]
+        },
+        isNew: false,
+      }
+    },
+  ];
+
+  // Use notices if available and not empty, otherwise use fallback
+  const displayNotices = (notices && notices.length > 0) ? notices : fallbackNotices;
+
+  // Fallback scrolling notice
+  const displayScrollingNotice = scrollingNotice || 
     "আগামী ১৫ নভেম্বর বার্ষিক ক্রীড়া প্রতিযোগিতা অনুষ্ঠিত হবে • অভিভাবক সভা ১০ নভেম্বর সকাল ১০টায় • নতুন ভর্তির আবেদন শুরু হয়েছে • পরীক্ষার ফলাফল প্রকাশিত হয়েছে";
 
   const nextSlide = () => {
@@ -66,13 +99,15 @@ export function NoticeSection() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  // 🔹 Auto-slide effect
+  // Auto-slide effect
   useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 5000); // change slide every 5s
-    return () => clearInterval(interval);
-  }, []);
+    if (slides.length > 1) {
+      const interval = setInterval(() => {
+        nextSlide();
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [slides.length]);
 
   return (
     <section className="bg-gradient-to-b from-gray-50 to-white">
@@ -85,7 +120,7 @@ export function NoticeSection() {
             </div>
             <div className="overflow-hidden px-4 py-2">
               <div className="animate-marquee whitespace-nowrap text-sm font-medium">
-                {scrollingNotice}
+                {convertToBengali(displayScrollingNotice)}
               </div>
             </div>
           </div>
@@ -99,48 +134,55 @@ export function NoticeSection() {
               {slides.map((slide, index) => (
                 <div key={index} className="w-full flex-shrink-0 relative">
                   <img
-                    src={slide.image || "/placeholder.svg"}
-                    alt={slide.title}
+                    src={slide?.fields?.file?.url ? `https:${slide.fields.file.url}` : "/placeholder.svg"}
+                    alt={slide?.fields?.title || `Slide ${index + 1}`}
                     className="w-full h-72 md:h-96 object-cover"
+                    onError={(e) => {
+                      e.target.src = "/placeholder.svg";
+                    }}
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                  {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
                     <h3 className="text-white text-xl font-semibold">
-                      {slide.title}
+                      {slide?.fields?.title || `Slide ${index + 1}`}
                     </h3>
-                  </div>
+                  </div> */}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Controls */}
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white border-0 shadow-lg hover:scale-110 transition-all duration-200"
-            onClick={prevSlide}>
-            <ChevronLeft className="h-5 w-5 text-gray-700" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white border-0 shadow-lg hover:scale-110 transition-all duration-200"
-            onClick={nextSlide}>
-            <ChevronRight className="h-5 w-5 text-gray-700" />
-          </Button>
+          {/* Controls - Only show if there are multiple slides */}
+          {slides.length > 1 && (
+            <>
+              <Button
+                variant="outline"
+                size="icon"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white border-0 shadow-lg hover:scale-110 transition-all duration-200"
+                onClick={prevSlide}>
+                <ChevronLeft className="h-5 w-5 text-gray-700" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white border-0 shadow-lg hover:scale-110 transition-all duration-200"
+                onClick={nextSlide}>
+                <ChevronRight className="h-5 w-5 text-gray-700" />
+              </Button>
 
-          {/* Indicators */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            {slides.map((_, index) => (
-              <button
-                key={index}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  index === currentSlide ? "bg-white shadow-lg" : "bg-white/50"
-                }`}
-                onClick={() => setCurrentSlide(index)}
-              />
-            ))}
-          </div>
+              {/* Indicators */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                      index === currentSlide ? "bg-white shadow-lg" : "bg-white/50"
+                    }`}
+                    onClick={() => setCurrentSlide(index)}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Notice Board */}
@@ -152,28 +194,28 @@ export function NoticeSection() {
             </div>
 
             <div className="space-y-4">
-              {notices.map((notice, index) => (
+              {displayNotices.map((notice, index) => (
                 <div
                   key={index}
                   className="group p-4 rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-200">
-                  <Link href={`/notices/${notice.slug}`}>
+                  <Link href={`/notices/${notice?.fields?.slug || 'default'}`}>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
                           <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">
-                            {notice.date}
+                            {formatBengaliDate(notice?.fields?.date)}
                           </span>
-                          {notice.isNew && (
+                          {notice?.fields?.isNew && (
                             <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full font-semibold animate-pulse">
                               নতুন
                             </span>
                           )}
                         </div>
                         <h4 className="font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors duration-200">
-                          {notice.title}
+                          {getNestedValue(notice, 'fields.title.content.0.content.0.value', 'শিরোনাম নেই')}
                         </h4>
                         <p className="text-gray-600 text-sm leading-relaxed">
-                          {notice.description}
+                          {convertToBengali(getNestedValue(notice, 'fields.description.content.0.content.0.value', 'বিবরণ নেই'))}
                         </p>
                       </div>
                       <Button
@@ -190,7 +232,7 @@ export function NoticeSection() {
 
             <Link href="/notices">
               <div className="mt-8 text-center">
-                <Button className=" cursor-pointer bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200">
+                <Button className="cursor-pointer bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200">
                   সকল নোটিশ দেখুন
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>

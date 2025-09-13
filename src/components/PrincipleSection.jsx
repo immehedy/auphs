@@ -49,11 +49,11 @@ export default function PrincipalSection() {
               {principal.message}
             </p>
 
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <Button variant="link" className="text-primary p-0 h-auto font-medium">
                 আরও দেখুন
               </Button>
-            </div>
+            </div> */}
           </div>
         </CardContent>
       </Card>

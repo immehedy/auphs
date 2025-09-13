@@ -2,12 +2,15 @@
 
 import Image from "next/image"
 
-export function HeroSection() {
+export function HeroSection({bannerImage}) {
+
+  const imageUrl = `https:${bannerImage?.fields?.file?.url}`
+  
   return (
     <section
       id="home"
       className="relative bg-cover bg-center bg-no-repeat py-12 md:py-16"
-      style={{ backgroundImage: "url('/azimnagar.jpg')" }}
+      style={{ backgroundImage: `url('${imageUrl}')` }}
     >
       {/* 🔹 Overlay */}
       <div className="absolute inset-0 bg-black/40"></div>

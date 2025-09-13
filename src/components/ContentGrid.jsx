@@ -12,7 +12,7 @@ import {
   ChevronRight,
 } from "lucide-react"
 
-export function ContentGrid() {
+export function ContentGrid({items}) {
   const sections = [
     {
       title: "আমাদের সম্পর্কে",

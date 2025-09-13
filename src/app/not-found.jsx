@@ -79,52 +79,6 @@ export default function NotFound() {
           </button>
         </div>
 
-        {/* Helpful Links */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20">
-          <h3 className="text-xl font-bold text-gray-800 mb-6">সহায়ক লিংক</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <a 
-              href="/"
-              className="group flex flex-col items-center p-4 rounded-lg hover:bg-blue-50 transition-colors duration-200"
-            >
-              <div className="bg-blue-100 p-3 rounded-full mb-3 group-hover:bg-blue-200 transition-colors">
-                <Home size={24} className="text-blue-600" />
-              </div>
-              <span className="text-sm font-medium text-gray-700">হোম</span>
-            </a>
-            
-            <a 
-              href="/about"
-              className="group flex flex-col items-center p-4 rounded-lg hover:bg-purple-50 transition-colors duration-200"
-            >
-              <div className="bg-purple-100 p-3 rounded-full mb-3 group-hover:bg-purple-200 transition-colors">
-                <BookOpen size={24} className="text-purple-600" />
-              </div>
-              <span className="text-sm font-medium text-gray-700">আমাদের সম্পর্কে</span>
-            </a>
-            
-            <a 
-              href="/contact"
-              className="group flex flex-col items-center p-4 rounded-lg hover:bg-green-50 transition-colors duration-200"
-            >
-              <div className="bg-green-100 p-3 rounded-full mb-3 group-hover:bg-green-200 transition-colors">
-                <Search size={24} className="text-green-600" />
-              </div>
-              <span className="text-sm font-medium text-gray-700">যোগাযোগ</span>
-            </a>
-            
-            <button 
-              onClick={handleSearch}
-              className="group flex flex-col items-center p-4 rounded-lg hover:bg-yellow-50 transition-colors duration-200"
-            >
-              <div className="bg-yellow-100 p-3 rounded-full mb-3 group-hover:bg-yellow-200 transition-colors">
-                <Compass size={24} className="text-yellow-600" />
-              </div>
-              <span className="text-sm font-medium text-gray-700">খোঁজ করুন</span>
-            </button>
-          </div>
-        </div>
-
         {/* Footer Message */}
         <div className="mt-8 text-gray-500 text-sm">
           <p>যদি সমস্যা অব্যাহত থাকে, তাহলে আমাদের সাথে যোগাযোগ করুন।</p>

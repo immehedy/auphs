@@ -2,20 +2,20 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { contentfulClient } from "@/lib/contentful";
-import { convertToBengali, formatBengaliDate, getNestedValue } from "@/lib/utils";
-
+import {
+  convertToBengali,
+  formatBengaliDate,
+  getNestedValue,
+} from "@/lib/utils";
 
 export default async function NoticesPage() {
-  const res = await contentfulClient?.getEntries({
+  const entryResponse = await contentfulClient?.getEntries({
     content_type: "notices",
   });
-  const notices = res?.items;
-
-  console.log("notcie", notices[0])
+  const notices = entryResponse?.items;
 
   // Use notices if available and not empty, otherwise use fallback
-  const displayNotices =
-    notices && notices.length > 0 ? notices : [];
+  const displayNotices = notices && notices.length > 0 ? notices : [];
   return (
     <section className="container mx-auto px-4 py-12 min-h-screen">
       <h1 className="text-3xl font-bold mb-8 text-center">সকল নোটিশ</h1>

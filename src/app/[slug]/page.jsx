@@ -235,7 +235,7 @@ export default async function NoticePage({ params }) {
       include: 2,
     });
 
-    if (res && entryResponse.items && entryResponse.items.length > 0) {
+    if (entryResponse && entryResponse.items && entryResponse.items.length > 0) {
       notice = entryResponse.items[0];
     }
   } catch (error) {

@@ -6,14 +6,16 @@ import { NoticeSection } from "@/components/NoticeSection";
 import PrincipalSection from "@/components/PrincipleSection";
 import { contentfulClient } from "@/lib/contentful";
 
+export const revalidate = 360; // Revalidate content every minute
+
 export default async function Home() {
 
   const res = await contentfulClient?.getEntries({
     content_type: "landingPage",
+    include: 2
   });
   const content = res.items[0].fields;
 
-  // console.log({content})
   return (
     <main className="min-h-screen bg-gray-50">
       <HeroSection bannerImage = {content?.hero} />

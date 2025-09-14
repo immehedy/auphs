@@ -16,7 +16,10 @@ import {
 
 export function ContentGrid({ items }) {
 
-  // Static sections configuration
+  console.log("items", items[0]?.fields?.title);
+  console.log("items", items[0]?.fields?.sectionTitle?.fields?.title);
+
+  // Static sections configuration - now without hardcoded items
   const sections = [
     {
       title: "আমাদের সম্পর্কে",
@@ -24,16 +27,6 @@ export function ContentGrid({ items }) {
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-50",
       textColor: "text-blue-700",
-      items: [
-        "প্রতিষ্ঠান সম্পর্কে",
-        "প্রাক্তন প্রধান শিক্ষক",
-        "ব্যবস্থাপনা কমিটি",
-        "শিক্ষকদের তালিকা",
-        "কর্মচারীদের তালিকা",
-        "প্রতিষ্ঠানের অবকাঠামো",
-        "লক্ষ্য ও উদ্দেশ্য",
-        "কেন এখানে পড়বেন",
-      ],
     },
     {
       title: "একাডেমিক তথ্য",
@@ -41,14 +34,6 @@ export function ContentGrid({ items }) {
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-50",
       textColor: "text-green-700",
-      items: [
-        "একাডেমিক ফি",
-        "বই তালিকা",
-        "সিলেবাস",
-        "ছুটির দিন",
-        "নোটিশ",
-        "একাডেমিক ক্যালেন্ডার",
-      ],
     },
     {
       title: "শিক্ষার্থী কর্নার",
@@ -56,13 +41,6 @@ export function ContentGrid({ items }) {
       color: "from-purple-500 to-purple-600",
       bgColor: "bg-purple-50",
       textColor: "text-purple-700",
-      items: [
-        "আমাদের শিক্ষার্থী",
-        "ফি পেমেন্ট",
-        "পোশাক তথ্য",
-        "ক্লাস রুটিন",
-        "পরীক্ষার রুটিন",
-      ],
     },
     {
       title: "সুবিধাসমূহ",
@@ -70,14 +48,6 @@ export function ContentGrid({ items }) {
       color: "from-orange-500 to-orange-600",
       bgColor: "bg-orange-50",
       textColor: "text-orange-700",
-      items: [
-        "বিজ্ঞান ল্যাব",
-        "কম্পিউটার ল্যাব",
-        "লাইব্রেরি",
-        "খেলার মাঠ",
-        "পরিবহন",
-        "ইনডোর গেমস",
-      ],
     },
     {
       title: "ফলাফল",
@@ -85,11 +55,6 @@ export function ContentGrid({ items }) {
       color: "from-red-500 to-red-600",
       bgColor: "bg-red-50",
       textColor: "text-red-700",
-      items: [
-        "স্কুল রেজাল্ট",
-        "বোর্ড রেজাল্ট লিংক",
-        "পরীক্ষার রুটিন",
-      ],
     },
     {
       title: "ভর্তি",
@@ -97,12 +62,6 @@ export function ContentGrid({ items }) {
       color: "from-teal-500 to-teal-600",
       bgColor: "bg-teal-50",
       textColor: "text-teal-700",
-      items: [
-        "ভর্তি তথ্য",
-        "অনলাইনে আবেদন",
-        "ভর্তি বিজ্ঞপ্তি",
-        "ভর্তি ফরম",
-      ],
     },
     {
       title: "গ্যালারি",
@@ -110,7 +69,6 @@ export function ContentGrid({ items }) {
       color: "from-pink-500 to-pink-600",
       bgColor: "bg-pink-50",
       textColor: "text-pink-700",
-      items: ["ইভেন্ট", "সাধারণ ছবি", "সাধারণ ভিডিও"],
     },
     {
       title: "সহ-পাঠক্রম",
@@ -118,20 +76,12 @@ export function ContentGrid({ items }) {
       color: "from-yellow-500 to-yellow-600",
       bgColor: "bg-yellow-50",
       textColor: "text-yellow-700",
-      items: [
-        "খেলাধুলা",
-        "ট্যুর",
-        "স্কাউট",
-        "কম্পিউটার ক্লাব",
-        "সাংস্কৃতিক ক্লাব",
-        "বিতর্ক ক্লাব",
-      ],
     },
   ]
 
   // Function to handle item click
-  const handleItemClick = (itemTitle, contentfulData) => {
-    console.log("Clicked item:", itemTitle)
+  const handleItemClick = (contentfulData) => {
+    console.log("Clicked item:", contentfulData.fields?.title)
     console.log("Contentful data:", contentfulData)
     
     // Navigate to the slug if it exists
@@ -144,23 +94,17 @@ export function ContentGrid({ items }) {
       // const router = useRouter()
       // router.push(`/${contentfulData.fields.slug}`)
     } else {
-      console.warn("No slug found for item:", itemTitle)
+      console.warn("No slug found for item:", contentfulData.fields?.title)
     }
   }
 
   // Create sections with their matching contentful items
   const sectionsWithData = sections.map(section => {
-    const matchingItems = section.items
-      .map(itemTitle => {
-        const contentfulItem = items?.find(item => 
-          item.fields?.title === itemTitle
-        )
-        return contentfulItem ? {
-          title: itemTitle,
-          contentfulData: contentfulItem
-        } : null
-      })
-      .filter(Boolean) // Remove null items
+    // Find all contentful items that belong to this section
+    const matchingItems = items?.filter(item => {
+      const itemSectionTitle = item.fields?.sectionTitle?.fields?.title
+      return itemSectionTitle === section.title
+    }) || []
     
     return {
       ...section,
@@ -168,13 +112,16 @@ export function ContentGrid({ items }) {
     }
   }).filter(section => section.matchingItems.length > 0) // Only show sections that have data
 
-  // Handle unmatched contentful items
+  // Handle unmatched contentful items (items that don't belong to any predefined section)
   const unmatchedItems = items?.filter(contentfulItem => {
-    const title = contentfulItem.fields?.title
-    return title && !sections.some(section => 
-      section.items.includes(title)
+    const itemSectionTitle = contentfulItem.fields?.sectionTitle?.fields?.title
+    return itemSectionTitle && !sections.some(section => 
+      section.title === itemSectionTitle
     )
   }) || []
+
+  console.log("Sections with data:", sectionsWithData)
+  console.log("Unmatched items:", unmatchedItems)
 
   if (sectionsWithData.length === 0 && unmatchedItems.length === 0) {
     return (
@@ -222,17 +169,17 @@ export function ContentGrid({ items }) {
                   </div>
                 </div>
                 <div className="px-6 py-2">
-                  <ul className="space-y-3">
+                  <ul className="space-y-1">
                     {section.matchingItems.map((item, itemIndex) => (
                       <li
                         key={itemIndex}
                         className="group/item flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer transition-all duration-200 p-2 rounded-lg hover:bg-gray-50"
-                        onClick={() => handleItemClick(item.title, item.contentfulData)}
+                        onClick={() => handleItemClick(item)}
                       >
                         <div
                           className={`w-2 h-2 bg-gradient-to-r ${section.color} rounded-full flex-shrink-0 group-hover/item:scale-125 transition-transform duration-200`}
                         ></div>
-                        <span className="text-sm font-medium flex-1">{item.title}</span>
+                        <span className="text-sm font-medium flex-1">{item.fields?.title}</span>
                         <ArrowRight className="h-3 w-3 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all duration-200" />
                       </li>
                     ))}
@@ -243,11 +190,8 @@ export function ContentGrid({ items }) {
           })}
 
           {/* Show unmatched items as separate cards */}
-          {unmatchedItems.map((contentfulItem, index) => (
-            <div
-              key={`unmatched-${index}`}
-              className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-white overflow-hidden rounded-lg"
-            >
+          {unmatchedItems.length > 0 && (
+            <div className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-white overflow-hidden rounded-lg">
               <div className="bg-gray-50 border-b-0 relative overflow-hidden py-2 px-6">
                 <div className="absolute inset-0 bg-gradient-to-r from-gray-500 to-gray-600 opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
                 <div className="flex items-center justify-between text-gray-700 relative z-10">
@@ -262,18 +206,21 @@ export function ContentGrid({ items }) {
               </div>
               <div className="px-6 py-2">
                 <ul className="space-y-3">
-                  <li
-                    className="group/item flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer transition-all duration-200 p-2 rounded-lg hover:bg-gray-50"
-                    onClick={() => handleItemClick(contentfulItem.fields?.title, contentfulItem)}
-                  >
-                    <div className="w-2 h-2 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex-shrink-0 group-hover/item:scale-125 transition-transform duration-200"></div>
-                    <span className="text-sm font-medium flex-1">{contentfulItem.fields?.title}</span>
-                    <ArrowRight className="h-3 w-3 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all duration-200" />
-                  </li>
+                  {unmatchedItems.map((contentfulItem, itemIndex) => (
+                    <li
+                      key={itemIndex}
+                      className="group/item flex items-center gap-3 text-gray-700 hover:text-blue-600 cursor-pointer transition-all duration-200 p-2 rounded-lg hover:bg-gray-50"
+                      onClick={() => handleItemClick(contentfulItem)}
+                    >
+                      <div className="w-2 h-2 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex-shrink-0 group-hover/item:scale-125 transition-transform duration-200"></div>
+                      <span className="text-sm font-medium flex-1">{contentfulItem.fields?.title}</span>
+                      <ArrowRight className="h-3 w-3 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all duration-200" />
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

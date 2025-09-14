@@ -49,16 +49,26 @@ export function ImportantLinks({ showImportantLinks }) {
       icon: Building2,
       color: "text-red-600",
       bgColor: "bg-red-50",
-      url: "https://moedu.gov.bd/"
+      url: "https://shed.gov.bd/"
     },
     {
-      title: "প্রাথমিক ও গণশিক্ষা মন্ত্রণালয়",
-      description: "প্রাথমিক শিক্ষা মন্ত্রণালয়",
+      title: "শিক্ষক বাতায়ন ",
+      description: "শিক্ষক বাতায়ন",
       icon: GraduationCap,
       color: "text-teal-600",
       bgColor: "bg-teal-50",
-      url: "https://mopme.gov.bd/"
-    }
+      url: "https://teachers.gov.bd/"
+    },
+    {
+      title: "কিশোর বাতায়ন",
+      description: "কিশোর বাতায়ন",
+      icon: Building2,
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
+      url: "https://dev.konnect.edu.bd/"
+    },
+    
+    
   ];
 
   // Don't render the component if showImportantLinks is false

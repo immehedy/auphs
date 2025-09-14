@@ -13,6 +13,7 @@ import {
   ArrowRight,
   ChevronRight,
 } from "lucide-react"
+// import { useRouter } from "next/navigation";
 
 export function ContentGrid({ items }) {
 
@@ -83,16 +84,18 @@ export function ContentGrid({ items }) {
   const handleItemClick = (contentfulData) => {
     console.log("Clicked item:", contentfulData.fields?.title)
     console.log("Contentful data:", contentfulData)
+
+
     
     // Navigate to the slug if it exists
-    if (contentfulData?.fields?.slug) {
+    if (contentfulData?.sys?.id) {
       // Using window.location for navigation (works in all environments)
-      window.location.href = `/${contentfulData.fields.slug}`
+      window.location.href = `/${contentfulData.sys.id}`
       
       // Alternative: If you're using Next.js router, uncomment below and import useRouter
       // import { useRouter } from 'next/navigation'
       // const router = useRouter()
-      // router.push(`/${contentfulData.fields.slug}`)
+      // router.push(`/${contentfulData.sys.id}`)
     } else {
       console.warn("No slug found for item:", contentfulData.fields?.title)
     }

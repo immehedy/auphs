@@ -11,6 +11,8 @@ export default async function NoticesPage() {
   });
   const notices = res?.items;
 
+  console.log("notcie", notices[0])
+
   // Use notices if available and not empty, otherwise use fallback
   const displayNotices =
     notices && notices.length > 0 ? notices : [];
@@ -23,7 +25,7 @@ export default async function NoticesPage() {
           <div
             key={index}
             className="group p-4 rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-200">
-            <Link href={`/notices/${notice?.fields?.slug || "default"}`}>
+            <Link href={`/notices/${notice?.sys?.id || "default"}`}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">

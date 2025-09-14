@@ -6,7 +6,7 @@ import { NoticeSection } from "@/components/NoticeSection";
 import PrincipalSection from "@/components/PrincipleSection";
 import { contentfulClient } from "@/lib/contentful";
 
-export const revalidate = 360; // Revalidate content every minute
+export const revalidate = 3600; // Revalidate content every hour
 
 export default async function Home() {
 

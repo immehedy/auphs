@@ -198,7 +198,7 @@ export function NoticeSection({ scrollingNotice, slideImages, notices }) {
                 <div
                   key={index}
                   className="group p-4 rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-200">
-                  <Link href={`/notices/${notice?.fields?.slug || 'default'}`}>
+                  <Link href={`/notices/${notice?.sys?.id || 'default'}`}>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">

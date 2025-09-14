@@ -218,209 +218,43 @@ const renderRichText = (richTextContent) => {
   });
 };
 
-// Fallback notices (same structure as your main page)
-const fallbackNotices = [
-  {
-    fields: {
-      slug: "new-website",
-      date: "November 7, 2024",
-      title: {
-        content: [{ content: [{ value: "নতুন ওয়েবসাইট প্রকাশ" }] }],
-      },
-      description: {
-        content: [
-          {
-            content: [
-              {
-                value: "আমাদের বিদ্যালয়ের নতুন ওয়েবসাইট চালু হয়েছে। সকল তথ্য এখানে পাবেন।",
-              },
-            ],
-          },
-        ],
-      },
-      content: {
-        content: [
-          {
-            content: [
-              {
-                value: "এটি একটি বিস্তারিত সংস্করণ যেখানে আরও তথ্য দেওয়া যেতে পারে...",
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-  {
-    fields: {
-      slug: "sports-day",
-      date: "November 5, 2024",
-      title: {
-        content: [{ content: [{ value: "বার্ষিক ক্রীড়া প্রতিযোগিতা" }] }],
-      },
-      description: {
-        content: [
-          {
-            content: [
-              {
-                value: "আগামী ১৫ নভেম্বর বার্ষিক ক্রীড়া প্রতিযোগিতা অনুষ্ঠিত হবে।",
-              },
-            ],
-          },
-        ],
-      },
-      content: {
-        content: [
-          {
-            content: [
-              {
-                value: "ক্রীড়া প্রতিযোগিতা সকাল ৯টা থেকে শুরু হবে এবং বিভিন্ন ইভেন্ট থাকবে।",
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-  {
-    fields: {
-      slug: "parents-meeting",
-      date: "November 3, 2024",
-      title: {
-        content: [{ content: [{ value: "অভিভাবক সভা" }] }],
-      },
-      description: {
-        content: [
-          {
-            content: [
-              {
-                value: "আগামী ১০ নভেম্বর সকাল ১০টায় অভিভাবক সভা অনুষ্ঠিত হবে।",
-              },
-            ],
-          },
-        ],
-      },
-      content: {
-        content: [
-          {
-            content: [
-              {
-                value: "অভিভাবকদের উপস্থিত থাকার জন্য অনুরোধ করা হচ্ছে।",
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-];
 
 export default async function NoticePage({ params }) {
-  const { slug } = await params;
-  let notice = null;
-
-  try {
-    // First, try to get from Contentful
-    const res = await contentfulClient?.getEntries({
-      content_type: "notices",
-      'sys.id': slug,
-      include: 2, // Include assets and references
-    });
-
-    console.log("res", res?.items[0])
-
-
-    // Check if we have data from Contentful
-    if (res && res.items && res.items.length > 0) {
-      // Look for the notice with matching slug in Contentful data
-      notice = res.items[0]
-    }
-
-    // If not found in Contentful, check fallback notices
-    if (!notice) {
-      notice = fallbackNotices.find(res?.items[0]);
-    }
-  } catch (error) {
-    console.error("Error fetching notice:", error);
-    // Try fallback notices on error
-    notice = fallbackNotices.find(res?.items[0]);
-  }
-
-  // Show 404 if notice not found
-  if (!notice) {
-    return notFound();
-  }
-
-  // Extract data with fallback values
-  const title = getNestedValue(
-    notice,
-    "fields.title.content.0.content.0.value",
-    "শিরোনাম নেই"
-  );
+    const { slug } = params; // ✅ fixed
+    let notice = null;
   
-  const date = notice.fields.date;
-
-  return (
-    <section className="container mx-auto px-4 py-12 max-w-4xl min-h-screen bg-white">
-      <div className="flex items-center space-x-3 mb-6">
-        <Calendar className="h-6 w-6 text-blue-600" />
-        <span className="text-sm text-gray-600">
-          {formatBengaliDate(date)}
-        </span>
-      </div>
-
-      <h1 className="text-3xl font-bold mb-8 text-gray-900">{title}</h1>
-      
-      {/* Render description as rich text */}
-      <div className="mb-6">
-        {notice.fields.description ? (
-          renderRichText(notice.fields.description)
-        ) : (
-          <p className="text-gray-700">বিবরণ নেই</p>
-        )}
-      </div>
-
-      {/* Render content as rich text */}
-      {/* <div className="prose max-w-none">
-        {notice.fields.content ? (
-          renderRichText(notice.fields.content)
-        ) : (
-          <p className="text-gray-700">বিস্তারিত তথ্য নেই</p>
-        )}
-      </div> */}
-    </section>
-  );
-}
-
-// Generate static paths for better performance (optional)
-export async function generateStaticParams() {
-  try {
-    const res = await contentfulClient?.getEntries({
-      content_type: "notices",
-    });
-
-    const paths = [];
-    
-    // Add Contentful notices
-    if (res && res.items) {
-      res.items.forEach(item => {
-        if (item.fields.slug) {
-          paths.push({ slug: item.fields.slug });
-        }
+    try {
+      const res = await contentfulClient?.getEntries({
+        content_type: "sectionItem",
+        "sys.id": slug,
+        include: 2,
       });
-    }
-
-    // Add fallback notices
-    fallbackNotices.forEach(item => {
-      if (item.fields.slug && !paths.find(p => p.slug === item.fields.slug)) {
-        paths.push({ slug: item.fields.slug });
+  
+      console.log("res", res); // ✅ for deep inspection
+  
+      if (res && res.items && res.items.length > 0) {
+        notice = res.items[0];
       }
-    });
-
-    return paths;
-  } catch (error) {
-    console.error("Error generating static params:", error);
-    // Return fallback slugs
-    return fallbackNotices.map(item => ({ slug: item.fields.slug }));
+    } catch (error) {
+      console.error("Error fetching notice:", error);
+    }
+  
+    if (!notice) {
+      return notFound();
+    }
+  
+    return (
+      <section className="container mx-auto px-4 py-12 max-w-4xl min-h-screen bg-white">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900">{notice?.fields?.title}</h1>
+        
+        <div className="mb-6">
+          {notice.fields.details ? (
+            renderRichText(notice.fields.details)
+          ) : (
+            <p className="text-gray-700">বিবরণ নেই</p>
+          )}
+        </div>
+      </section>
+    );
   }
-}
+  

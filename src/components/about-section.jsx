@@ -43,7 +43,7 @@ export function AboutSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
+          {featuentryResponse.map((feature, index) => (
             <Card
               key={index}
               className="bg-card hover:shadow-lg transition-shadow duration-300">

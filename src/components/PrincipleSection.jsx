@@ -1,10 +1,14 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { GraduationCap } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { GraduationCap, ChevronDown, ChevronUp } from "lucide-react"
 
 export default function PrincipalSection({ principalName, principalPhoto, principleMessage }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
   // Helper function to extract text content from Contentful rich text
   const extractTextContent = (richTextObj) => {
     if (!richTextObj || !richTextObj.content) return '';
@@ -40,6 +44,17 @@ export default function PrincipalSection({ principalName, principalPhoto, princi
       "শিক্ষার্থীদের নৈতিক, সামাজিক ও একাডেমিক উৎকর্ষতা অর্জনে আমাদের অঙ্গীকার অটুট। শিক্ষা শুধু তথ্য নয়—চরিত্র গঠনের মাধ্যম।",
   }
 
+  // Configuration for text truncation
+  const CHAR_LIMIT = 150; // Adjust this number based on your needs
+  const shouldTruncate = principalData.message.length > CHAR_LIMIT;
+  const displayMessage = shouldTruncate && !isExpanded 
+    ? principalData.message.slice(0, CHAR_LIMIT) + "..."
+    : principalData.message;
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div className="space-y-6">
       <Card className="shadow-xl overflow-hidden max-w-md mx-auto">
@@ -74,15 +89,32 @@ export default function PrincipalSection({ principalName, principalPhoto, princi
             {/* small divider for elegance */}
             <div className="mx-auto my-3 h-[2px] w-12 bg-primary/30 rounded-full" />
 
-            <p className="text-sm text-gray-600 leading-relaxed">
-              {principalData.message}
-            </p>
-
-            {/* <div className="mt-4">
-              <Button variant="link" className="text-primary p-0 h-auto font-medium">
-                আরও দেখুন
-              </Button>
-            </div> */}
+            <div className="text-sm text-gray-600 leading-relaxed">
+              <p className="whitespace-pre-line">
+                {displayMessage}
+              </p>
+              
+              {shouldTruncate && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleExpanded}
+                  className="mt-3 text-primary hover:text-primary/80 p-0 h-auto font-medium flex items-center gap-1 mx-auto"
+                >
+                  {isExpanded ? (
+                    <>
+                      <span>কম দেখুন</span>
+                      <ChevronUp className="h-4 w-4" />
+                    </>
+                  ) : (
+                    <>
+                      <span>আরও দেখুন</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>

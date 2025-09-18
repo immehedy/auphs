@@ -17,35 +17,35 @@ export default async function NoticesPage() {
   // Use notices if available and not empty, otherwise use fallback
   const displayNotices = notices && notices.length > 0 ? notices : [];
   return (
-    <section className="container mx-auto px-4 py-12 min-h-screen">
-      <h1 className="text-3xl font-bold mb-8 text-center">সকল নোটিশ</h1>
+    <section className="container mx-auto px-4 py-12 min-h-screen bg-white">
+      <h1 className="text-3xl font-bold mb-8 text-center text-gray-900">সকল নোটিশ</h1>
 
       <div className="space-y-6">
         {displayNotices.map((notice, index) => (
           <div
             key={index}
-            className="group p-4 rounded-lg border border-gray-100 hover:border-primary/20 hover:shadow-md transition-all duration-200">
+            className="group p-4 rounded-lg border border-gray-200 bg-white hover:border-blue-300 hover:shadow-md transition-all duration-200">
             <Link href={`/notices/${notice?.sys?.id || "default"}`}>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <span className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">
+                    <span className="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">
                       {formatBengaliDate(notice?.fields?.date)}
                     </span>
                     {notice?.fields?.isNew && (
-                      <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full font-semibold animate-pulse">
+                      <span className="text-xs bg-red-50 text-red-700 px-2 py-1 rounded-full font-semibold animate-pulse">
                         নতুন
                       </span>
                     )}
                   </div>
-                  <h4 className="font-semibold text-gray-900 mb-1 group-hover:text-primary transition-colors duration-200">
+                  <h4 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-700 transition-colors duration-200">
                     {getNestedValue(
                       notice,
                       "fields.title.content.0.content.0.value",
                       "শিরোনাম নেই"
                     )}
                   </h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-gray-700 text-sm leading-relaxed">
                     {convertToBengali(
                       getNestedValue(
                         notice,
@@ -58,8 +58,8 @@ export default async function NoticesPage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <ArrowRight className="h-4 w-4" />
+                  className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-blue-50">
+                  <ArrowRight className="h-4 w-4 text-blue-600" />
                 </Button>
               </div>
             </Link>

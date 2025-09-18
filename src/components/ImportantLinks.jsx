@@ -60,12 +60,12 @@ export function ImportantLinks({ showImportantLinks }) {
       url: "https://teachers.gov.bd/"
     },
     {
-      title: "কিশোর বাতায়ন",
-      description: "কিশোর বাতায়ন",
+      title: "মুক্তপাঠ",
+      description: "বাংলা ভাষায় নির্মিত একটি উন্মুক্ত ই-লার্নিং প্লাটফর্ম",
       icon: Building2,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
-      url: "https://dev.konnect.edu.bd/"
+      url: "https://muktopaath.gov.bd"
     },
     
     

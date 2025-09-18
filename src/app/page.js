@@ -15,6 +15,12 @@ export default async function Home() {
   });
   const content = entryResponse.items[0].fields;
 
+  const noticesResponse = await contentfulClient?.getEntries({
+    content_type: "notices", // Your actual notice content type
+    order: '-fields.date', // Order by date field, newest first
+    limit: 3, // Ensure we get all notices
+  });
+
   return (
     <main className="min-h-screen bg-gray-50">
       <HeroSection bannerImage={content?.hero} />
@@ -27,7 +33,7 @@ export default async function Home() {
                 content?.scrollingNotice?.content[0]?.content[0]?.value
               }
               slideImages={content?.slideImages}
-              notices={content?.notices}
+              notices={noticesResponse?.items}
             />
             <ContentGrid items={content?.items} />
           </div>

@@ -11,6 +11,7 @@ import {
 export default async function NoticesPage() {
   const entryResponse = await contentfulClient?.getEntries({
     content_type: "notices",
+    order: '-fields.date',
   });
   const notices = entryResponse?.items;
 

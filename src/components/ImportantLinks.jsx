@@ -65,7 +65,7 @@ export function ImportantLinks({ showImportantLinks }) {
       icon: Building2,
       color: "text-purple-600",
       bgColor: "bg-purple-50",
-      url: "hhttps://muktopaath.gov.bd"
+      url: "https://muktopaath.gov.bd"
     },
     
     

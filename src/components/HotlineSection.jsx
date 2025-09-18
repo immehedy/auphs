@@ -19,7 +19,7 @@ export function HotlineSection() {
         </CardHeader>
 
         {/* Image only (responsive) */}
-        <CardContent className="p-4 md:p-6">
+        <CardContent className="px-4 md:px-6">
           {/* 
             Put the image file at: /public/hotline.jpg 
             (dimensions in the example were tall portrait ~1206x377)
@@ -27,10 +27,10 @@ export function HotlineSection() {
           <Image
             src="/hotline.png"
             alt="বাংলাদেশের গুরুত্বপূর্ণ জরুরি হটলাইন নম্বরসমূহ"
-            width={377}
-            height={1206}
+            width={277}
+            height={500}
             // Make it fluid and keep the original aspect ratio
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "100%", height: 500 }}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 600px"
             priority
           />

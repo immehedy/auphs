@@ -17,8 +17,7 @@ import {
 
 export function ContentGrid({ items }) {
 
-  console.log("items", items[0]?.fields?.title);
-  console.log("items", items[0]?.fields?.sectionTitle?.fields?.title);
+
 
   // Static sections configuration - now without hardcoded items
   const sections = [
@@ -82,8 +81,7 @@ export function ContentGrid({ items }) {
 
   // Function to handle item click
   const handleItemClick = (contentfulData) => {
-    console.log("Clicked item:", contentfulData.fields?.title)
-    console.log("Contentful data:", contentfulData)
+
 
 
     
@@ -123,8 +121,7 @@ export function ContentGrid({ items }) {
     )
   }) || []
 
-  console.log("Sections with data:", sectionsWithData)
-  console.log("Unmatched items:", unmatchedItems)
+
 
   if (sectionsWithData.length === 0 && unmatchedItems.length === 0) {
     return (

@@ -19,11 +19,6 @@ export default function NotFound() {
     window.history.back()
   }
 
-  const handleSearch = () => {
-    // You can implement search functionality here
-    console.log("Search functionality")
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center px-4">
       <div className="max-w-4xl mx-auto text-center">

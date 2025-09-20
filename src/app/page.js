@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { HotlineSection } from "@/components/HotlineSection";
 import { ImportantLinks } from "@/components/ImportantLinks";
 import { NoticeSection } from "@/components/NoticeSection";
+import PresidentSection from "@/components/PresidentSection";
 import PrincipalSection from "@/components/PrincipleSection";
 import { contentfulClient } from "@/lib/contentful";
 
@@ -20,6 +21,7 @@ export default async function Home() {
     order: '-fields.date', // Order by date field, newest first
     limit: 3, // Ensure we get all notices
   });
+
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -42,6 +44,11 @@ export default async function Home() {
               principalName={content?.principalName}
               principalPhoto={content?.principalPhoto}
               principleMessage={content?.principleMessage}
+            />
+            <PresidentSection
+              presidentName={content?.presidentName}
+              presidentPhoto={content?.presidentPhoto}
+              presidentMessage={content?.presidentMessage}
             />
             <ImportantLinks showImportantLinks={content?.showImportantLinks} />
             <HotlineSection />

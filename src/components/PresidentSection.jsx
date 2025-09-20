@@ -1,0 +1,123 @@
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { GraduationCap, ChevronDown, ChevronUp, Shield, Award } from "lucide-react"
+
+export default function PresidentSection({ presidentName, presidentPhoto, presidentMessage }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Helper function to extract text content from Contentful rich text
+  const extractTextContent = (richTextObj) => {
+    if (!richTextObj || !richTextObj.content) return '';
+    
+    try {
+      // Navigate through the nested structure to get the text value
+      const textContent = richTextObj.content
+        .map(node => {
+          if (node.content && Array.isArray(node.content)) {
+            return node.content
+              .map(textNode => textNode.value || '')
+              .join(' ');
+          }
+          return '';
+        })
+        .join(' ')
+        .trim();
+      
+      return textContent;
+    } catch (error) {
+      console.error('Error extracting text content:', error);
+      return '';
+    }
+  };
+
+  // Extract data from Contentful structure or use fallbacks
+  const presidentData = {
+    name: extractTextContent(presidentName) || "সভাপতি",
+    photo: presidentPhoto?.fields?.file?.url 
+      ? `https:${presidentPhoto.fields.file.url}` 
+      : "/principal.png",
+    message: extractTextContent(presidentMessage) || 
+      "শিক্ষার্থীদের নৈতিক, সামাজিক ও একাডেমিক উৎকর্ষতা অর্জনে আমাদের অঙ্গীকার অটুট। শিক্ষা শুধু তথ্য নয়—চরিত্র গঠনের মাধ্যম।",
+  }
+
+  // Configuration for text truncation
+  const CHAR_LIMIT = 150; // Adjust this number based on your needs
+  const shouldTruncate = presidentData.message.length > CHAR_LIMIT;
+  const displayMessage = shouldTruncate && !isExpanded 
+    ? presidentData.message.slice(0, CHAR_LIMIT) + "..."
+    : presidentData.message;
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  return (
+    <div className="space-y-6">
+      <Card className="shadow-xl overflow-hidden max-w-md mx-auto">
+        {/* Header (same structure & feel as ImportantLinks) */}
+        <CardHeader className="bg-gradient-to-r from-secondary to-secondary/80 text-white relative">
+          <div className="absolute inset-0 bg-black/10" />
+          <CardTitle className="text-xl font-bold flex items-center space-x-3 relative z-10 py-2">
+            <Award className="h-6 w-6" />
+            <span>সভাপতির বাণী</span>
+          </CardTitle>
+        </CardHeader>
+
+        {/* Content */}
+        <CardContent className="p-6">
+          <div className="text-center">
+            <div className="relative w-40 h-52 md:w-64 md:h-64 mx-auto mb-5 rounded-lg overflow-hidden shadow-md">
+              <Image
+                src={presidentData.photo}
+                alt="প্রধান শিক্ষক"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 200px, 240px"
+                priority
+                onError={(e) => {
+                  e.target.src = "/placeholder.svg";
+                }}
+              />
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-900">{presidentData.name}</h3>
+
+            {/* small divider for elegance */}
+            <div className="mx-auto my-3 h-[2px] w-12 bg-primary/30 rounded-full" />
+
+            <div className="text-sm text-gray-600 leading-relaxed">
+              <p className="whitespace-pre-line">
+                {displayMessage}
+              </p>
+              
+              {shouldTruncate && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleExpanded}
+                  className="mt-3 text-primary hover:text-primary/80 p-0 h-auto font-medium flex items-center gap-1 mx-auto"
+                >
+                  {isExpanded ? (
+                    <>
+                      <span>কম দেখুন</span>
+                      <ChevronUp className="h-4 w-4" />
+                    </>
+                  ) : (
+                    <>
+                      <span>আরও দেখুন</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
